@@ -1,31 +1,79 @@
-/********************************************************************
- * Ngo Hung Cuong
- * CH32V003F4P6 Example
- * VSCode
- * Makefile
-********************************************************************/
+#include "Arduino.h"
+#include "oled.h"
+#include "string.h"
+#include "ik_ina219.h"
+// the setup function runs once when you press reset or power the board
 
-#include "debug.h"
+void setup() {
+  // initialize digital pin LED_BUILTIN as an output.
+    Serial_begin(460800);
+    printf("hello oled\r\n");
+    pinMode(LED_BUILTIN, OUTPUT);
+    pinMode(D2, INPUT_PULLDOWN);
+    pinMode(A1, INPUT_PULLUP);
+    pinMode(A2, INPUT_PULLUP);
+//    INA219_Init(INA219_ADDRESS, 80000);
+//    oledInit(0x3c, 80000);
+//    oledFill(0);
+}
 
-int main(void)
-{
-	GPIO_InitTypeDef gpioInit;
+// the loop function runs over and over again forever
 
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
+// static uint8_t mode = 0;
+// static int16_t current_calibration = 0;
 
-	gpioInit.GPIO_Mode = GPIO_Mode_Out_PP;
-	gpioInit.GPIO_Pin = GPIO_Pin_0;
-	gpioInit.GPIO_Speed = GPIO_Speed_50MHz;
+// void print_current(const char* prefix, int16_t current, uint8_t y) {
+//     char msg[30] = {0};
+//     if (current < 1000 && current > -1000) {
+//         sprintf(msg, "%s  %3d uA ", prefix, current);
+//     } else {
+//         uint8_t plus = current > 0;
+//         current = current > 0 ? current : -current;
+//         sprintf(msg, "%s %s%2d.%01d mA   ", plus ? " " : "-", prefix, current/1000, (current%1000)/100 );
+//     }
+//     oledWriteString(0, y, msg, FONT_12x16, 0);
+// }
 
-	GPIO_Init(GPIOC, &gpioInit);
+// void print_voltage(uint16_t voltage)
+// {
+//     char msg[30] = {0};
+//     sprintf(msg, "V %2d.%03d v", voltage / 1000, voltage % 1000);
+//     oledWriteString(0, 0, msg, FONT_12x16, 0);
+// }
 
-	Delay_Init();
+void loop() {
+//    uint16_t bus_voltage = INA219_ReadBusVoltage();
+//    int16_t current = INA219_ReadCurrent();
 
-    while(1)
-    {
-    	GPIO_SetBits(GPIOC, GPIO_Pin_0);
-    	Delay_Ms(50);
-    	GPIO_ResetBits(GPIOC, GPIO_Pin_0);
-    	Delay_Ms(50);
-    }
+//    if (mode == 0) {
+//        print_voltage(bus_voltage);
+//        print_current("I", current - current_calibration, 24);
+//    } else if (mode == 1) {
+//        print_current("C", current_calibration, 0);
+//        print_current("R", current, 24);
+//    }
+//
+//
+//    if (!digitalRead(A1)) {
+//        if (mode == 1) {
+//            current_calibration = current;
+//        }
+//        if (mode == 0) {
+//            mode = 1;
+//            oledFill(0);
+//        }
+//    }
+//    if (!digitalRead(A2)) {
+//        if (mode == 1) {
+//            mode = 0;
+//            oledFill(0);
+//        }
+//    }
+        digitalWrite(LED_BUILTIN, 1);
+        delay(1000);
+        digitalWrite(LED_BUILTIN, 0);
+        delay(1000);
+		printf("voltage\r\n");
+
+//    printf("voltage: %d mv, current: %d uA\r\n", bus_voltage, current);
 }

@@ -54,7 +54,14 @@ library/Peripheral/src/ch32v00x_rcc.c \
 library/Peripheral/src/ch32v00x_spi.c \
 library/Peripheral/src/ch32v00x_tim.c \
 library/Peripheral/src/ch32v00x_usart.c \
-library/Peripheral/src/ch32v00x_wwdg.c
+library/Peripheral/src/ch32v00x_wwdg.c \
+library/Peripheral/src/Arduino.c \
+library/Peripheral/src/I2C.c \
+library/Peripheral/src/ik_ina219.c \
+library/Peripheral/src/neopixels.c \
+library/Peripheral/src/oled.c \
+library/Peripheral/src/SPI.c \
+library/Peripheral/src/st7302.c
 
 # ASM sources
 ASM_SOURCES =  \
