@@ -64,7 +64,7 @@ startup_ch32v00x.s
 # modified by Ngo Hung Cuong
 ifeq ($(OS),Windows_NT)
 # Windows
-	GCC_PATH = C:/MounRiver/MounRiver_Studio/toolchain/RISC-V Embedded GCC/bin
+	GCC_PATH = C:/xPacks/riscv-embedded-gcc-12/bin
 	OCD_PATH = C:/MounRiver/MounRiver_Studio/toolchain/OpenOCD/bin
 else
 # Linux
@@ -86,7 +86,7 @@ endif
 #######################################
 # binaries
 #######################################
-PREFIX = riscv-none-embed-
+PREFIX = riscv-none-elf-
 # The gcc compiler bin path can be either defined in make command via GCC_PATH variable (> make GCC_PATH=xxx)
 # either it can be added to the PATH environment variable.
 ifdef GCC_PATH
@@ -152,10 +152,8 @@ ifeq ($(DEBUG), 1)
 CFLAGS += -g -gdwarf-2
 endif
 
-
 # Generate dependency information
-CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
-
+CFLAGS += -MMD -MP -MF "$(@:%.o=%.d)"
 
 #######################################
 # LDFLAGS
@@ -184,10 +182,10 @@ OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(ASM_SOURCES:.s=.o)))
 vpath %.s $(sort $(dir $(ASM_SOURCES)))
 
 $(BUILD_DIR)/%.o: %.c Makefile | $(BUILD_DIR) 
-	$(CC) -c $(CFLAGS) -g -std=gnu99 -MT"$(@)" -c "$<" -o "$@"
+	$(CC) -c $(CFLAGS) -g -std=gnu99 -MT "$(@)" -c "$<" -o "$@"
 
 $(BUILD_DIR)/%.o: %.s Makefile | $(BUILD_DIR)
-	$(AS) -c $(CFLAGS) -g -MT"$(@)" -c "$<" -o "$@"
+	$(AS) -c $(CFLAGS) -g -MT "$(@)" -c "$<" -o "$@"
 
 $(BUILD_DIR)/$(TARGET).elf: $(OBJECTS) Makefile
 	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
