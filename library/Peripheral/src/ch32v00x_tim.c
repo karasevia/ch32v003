@@ -4,8 +4,10 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : This file provides all the TIM firmware functions.
+ *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
 #include <ch32v00x_rcc.h>
 #include <ch32v00x_tim.h>
@@ -1962,9 +1964,9 @@ uint16_t TIM_GetCapture2(TIM_TypeDef *TIMx)
 }
 
 /*********************************************************************
- * @fn      TIM_GetCapture2
+ * @fn      TIM_GetCapture3
  *
- * @brief   Gets the TIMx Input Capture 2 value.
+ * @brief   Gets the TIMx Input Capture 3 value.
  *
  * @param   TIMx - where x can be 1 to 2 select the TIM peripheral.
  *
