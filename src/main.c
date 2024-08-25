@@ -12,68 +12,63 @@ void setup() {
     pinMode(D2, INPUT_PULLDOWN);
     pinMode(A1, INPUT_PULLUP);
     pinMode(A2, INPUT_PULLUP);
-//    INA219_Init(INA219_ADDRESS, 80000);
-//    oledInit(0x3c, 80000);
-//    oledFill(0);
+	INA219_Init(INA219_ADDRESS, 80000);
+	oledInit(0x3c, 80000);
+	oledFill(0);
 }
 
 // the loop function runs over and over again forever
 
-// static uint8_t mode = 0;
-// static int16_t current_calibration = 0;
+static uint8_t mode = 0;
+static int16_t current_calibration = 0;
 
-// void print_current(const char* prefix, int16_t current, uint8_t y) {
-//     char msg[30] = {0};
-//     if (current < 1000 && current > -1000) {
-//         sprintf(msg, "%s  %3d uA ", prefix, current);
-//     } else {
-//         uint8_t plus = current > 0;
-//         current = current > 0 ? current : -current;
-//         sprintf(msg, "%s %s%2d.%01d mA   ", plus ? " " : "-", prefix, current/1000, (current%1000)/100 );
-//     }
-//     oledWriteString(0, y, msg, FONT_12x16, 0);
-// }
+void print_current(const char* prefix, int16_t current, uint8_t y) {
+    char msg[30] = {0};
+    if (current < 1000 && current > -1000) {
+        sprintf(msg, "%s  %3d uA ", prefix, current);
+    } else {
+        uint8_t plus = current > 0;
+        current = current > 0 ? current : -current;
+        sprintf(msg, "%s %s%2d.%01d mA   ", plus ? " " : "-", prefix, current/1000, (current%1000)/100 );
+    }
+    oledWriteString(0, y, msg, FONT_12x16, 0);
+}
 
-// void print_voltage(uint16_t voltage)
-// {
-//     char msg[30] = {0};
-//     sprintf(msg, "V %2d.%03d v", voltage / 1000, voltage % 1000);
-//     oledWriteString(0, 0, msg, FONT_12x16, 0);
-// }
+void print_voltage(uint16_t voltage)
+{
+    char msg[30] = {0};
+    sprintf(msg, "V %2d.%03d v", voltage / 1000, voltage % 1000);
+    oledWriteString(0, 0, msg, FONT_12x16, 0);
+}
 
 void loop() {
-//    uint16_t bus_voltage = INA219_ReadBusVoltage();
-//    int16_t current = INA219_ReadCurrent();
+   uint16_t bus_voltage = INA219_ReadBusVoltage();
+   int16_t current = INA219_ReadCurrent();
 
-//    if (mode == 0) {
-//        print_voltage(bus_voltage);
-//        print_current("I", current - current_calibration, 24);
-//    } else if (mode == 1) {
-//        print_current("C", current_calibration, 0);
-//        print_current("R", current, 24);
-//    }
-//
-//
-//    if (!digitalRead(A1)) {
-//        if (mode == 1) {
-//            current_calibration = current;
-//        }
-//        if (mode == 0) {
-//            mode = 1;
-//            oledFill(0);
-//        }
-//    }
-//    if (!digitalRead(A2)) {
-//        if (mode == 1) {
-//            mode = 0;
-//            oledFill(0);
-//        }
-//    }
-        digitalWrite(LED_BUILTIN, 1);
-        delay(1000);
-        digitalWrite(LED_BUILTIN, 0);
-        delay(1000);
-		printf("voltage\r\n");
+   if (mode == 0) {
+       print_voltage(bus_voltage);
+       print_current("I", current - current_calibration, 24);
+   } else if (mode == 1) {
+       print_current("C", current_calibration, 0);
+       print_current("R", current, 24);
+   }
 
-//    printf("voltage: %d mv, current: %d uA\r\n", bus_voltage, current);
+   if (!digitalRead(A1)) {
+       if (mode == 1) {
+           current_calibration = current;
+       }
+       if (mode == 0) {
+           mode = 1;
+           oledFill(0);
+       }
+   }
+
+   if (!digitalRead(A2)) {
+       if (mode == 1) {
+           mode = 0;
+           oledFill(0);
+       }
+   }
+
+   printf("voltage: %d mv, current: %d uA\r\n", bus_voltage, current);
 }
